@@ -158,8 +158,6 @@ bot.onText(/\/start/, (msg) => {
     })
 
     bot.setMyCommands(commands)
-
-    console.log(languageCode)
     const welcomeMessage = languageCode === "es" ? " ¡Hola!" : "Hi!"
     bot.sendMessage(chatId, welcomeMessage)
     const helpMessage =
