@@ -152,7 +152,7 @@ async function copAlert(bot, msg) {
   schedule.scheduledJobs[chatId] && schedule.scheduledJobs[chatId].cancel()
 
   const reminderTime = moment().tz(moment.tz.guess()).set({
-    hour: 9,
+    hour: 13,
     minute: 0,
     second: 0,
     millisecond: 0,
