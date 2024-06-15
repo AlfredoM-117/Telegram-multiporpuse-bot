@@ -169,9 +169,9 @@ bot.onText(/\/start/, (msg) => {
         ? "Utiliza /help para ver los comandos"
         : "Use /help for list of commands"
     bot.sendMessage(chatId, helpMessage)
-    if (!bot.isPolling()) {
-      bot.startPolling()
-    }
+    // if (!bot.isPolling()) {
+    //   bot.startPolling()
+    // }
   } catch (error) {
     console.log(error)
   }
