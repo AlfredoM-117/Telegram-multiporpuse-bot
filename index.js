@@ -26,11 +26,15 @@ import {
 
 const telegramToken = process.env.BOT_TOKEN
 
-const bot = new TelegramBot(telegramToken, { polling: true })
+const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https://telegram-multiporpuse-bot.onrender.com`
 
-bot.on("polling_error", (error) => {
-  console.error("Error de polling:", error)
-})
+const bot = new TelegramBot(telegramToken, { webHook: { port: 443 } })
+bot.setWebHook(`${url}/bot${telegramToken}`)
+
+// const bot = new TelegramBot(telegramToken, { polling: true })
+// bot.on("polling_error", (error) => {
+//   console.error("Error de polling:", error)
+// })
 //----------------------Get user language---------------------------
 
 bot.onText(/\/start/, (msg) => {
