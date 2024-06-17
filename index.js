@@ -37,6 +37,14 @@ const server = http.createServer((req, res) => {
     res.statusCode = 200
     res.setHeader("Content-Type", "text/plain")
     res.end("Up and running!")
+  } else if (req.url === "/") {
+    res.statusCode = 200
+    //------------------Dice-------------------
+
+    bot.onText(/\/dice/, (msg) => {
+      const chatId = msg.chat.id
+      bot.sendDice(chatId)
+    })
   } else {
     res.statusCode = 404
     res.end("Down")
@@ -191,13 +199,6 @@ bot.onText(/\/start/, (msg) => {
   } catch (error) {
     console.log(error)
   }
-})
-
-//------------------Dice-------------------
-
-bot.onText(/\/dice/, (msg) => {
-  const chatId = msg.chat.id
-  bot.sendDice(chatId)
 })
 
 //------------------Coin Chart----------------
