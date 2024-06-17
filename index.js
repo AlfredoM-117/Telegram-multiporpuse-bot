@@ -39,6 +39,8 @@ const server = http.createServer((req, res) => {
     res.end("Up and running!")
   } else if (req.url === "/") {
     res.statusCode = 200
+    res.setHeader("Content-Type", "text/plain")
+    res.end("Up and running!")
     //------------------Dice-------------------
 
     bot.onText(/\/dice/, (msg) => {
