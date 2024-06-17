@@ -25,6 +25,12 @@ import {
   nextF1,
 } from "./bot-commands/f1.js"
 
+const telegramToken = process.env.BOT_TOKEN
+
+const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https://telegram-multiporpuse-bot.onrender.com`
+
+const bot = new TelegramBot(telegramToken, { webHook: { port: 443 } })
+bot.setWebHook(`${url}/bot${telegramToken}`)
 const server = http.createServer((req, res) => {
   if (req.url === "/healthcheck") {
     res.statusCode = 200
@@ -36,17 +42,10 @@ const server = http.createServer((req, res) => {
   }
 })
 
-const port = process.env.PORT || 3000
+const port = 443
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`)
 })
-
-const telegramToken = process.env.BOT_TOKEN
-
-const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https://telegram-multiporpuse-bot.onrender.com`
-
-const bot = new TelegramBot(telegramToken, { webHook: { port: 443 } })
-bot.setWebHook(`${url}/bot${telegramToken}`)
 
 // const bot = new TelegramBot(telegramToken, { polling: true })
 // bot.on("polling_error", (error) => {
