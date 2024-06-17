@@ -31,6 +31,7 @@ const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https:/
 
 const bot = new TelegramBot(telegramToken, { webHook: { port: 443 } })
 bot.setWebHook(`${url}/bot${telegramToken}`)
+
 const server = http.createServer((req, res) => {
   if (req.url === "/healthcheck") {
     res.statusCode = 200
@@ -42,7 +43,7 @@ const server = http.createServer((req, res) => {
   }
 })
 
-const port = 443
+const port = process.env.PORT || 3000
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`)
 })
