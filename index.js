@@ -53,9 +53,8 @@ const server = http.createServer((req, res) => {
   }
 })
 
-const port = process.env.PORT || 3000
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`)
+server.listen(443, () => {
+  console.log(`Server running at port 443`)
 })
 
 // const bot = new TelegramBot(telegramToken, { polling: true })
