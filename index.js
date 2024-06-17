@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
     res.statusCode = 200
     res.setHeader("Content-Type", "text/plain")
     res.end("Up and running!")
-  } else if (req.url.pathname == "/bot") {
+  } else if (req.url == "/bot") {
     // Tu código para manejar las solicitudes del bot de Telegram va aquí
     bot.processUpdate(req.body)
     res.writeHead(200)
