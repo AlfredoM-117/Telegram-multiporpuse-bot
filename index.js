@@ -29,7 +29,9 @@ const telegramToken = process.env.BOT_TOKEN
 
 const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https://telegram-multiporpuse-bot.onrender.com`
 
-const bot = new TelegramBot(telegramToken, { webHook: { port: 443 } })
+const bot = new TelegramBot(telegramToken, {
+  webHook: { port: process.env.PORT },
+})
 bot.setWebHook(`${url}/bot${telegramToken}`)
 
 const server = http.createServer((req, res) => {
@@ -37,24 +39,14 @@ const server = http.createServer((req, res) => {
     res.statusCode = 200
     res.setHeader("Content-Type", "text/plain")
     res.end("Up and running!")
-  } else if (req.url === "/") {
-    res.statusCode = 200
-    res.setHeader("Content-Type", "text/plain")
-    res.end("Up and running!")
-    //------------------Dice-------------------
-
-    bot.onText(/\/dice/, (msg) => {
-      const chatId = msg.chat.id
-      bot.sendDice(chatId)
-    })
   } else {
     res.statusCode = 404
     res.end("Down")
   }
 })
 
-server.listen(443, () => {
-  console.log(`Server running at port 443`)
+server.listen(process.env.PORT, () => {
+  console.log(`Server running at port ${process.env.PORT}`)
 })
 
 // const bot = new TelegramBot(telegramToken, { polling: true })
@@ -200,6 +192,13 @@ bot.onText(/\/start/, (msg) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+//------------------Dice-------------------
+
+bot.onText(/\/dice/, (msg) => {
+  const chatId = msg.chat.id
+  bot.sendDice(chatId)
 })
 
 //------------------Coin Chart----------------
