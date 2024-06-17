@@ -51,7 +51,7 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(process.env.PORT, () => {
-  console.log(`Server running at port ${process.env.PORT}`)
+  console.log(`Server running at port b ${process.env.PORT}`)
 })
 
 // const bot = new TelegramBot(telegramToken, { polling: true })
