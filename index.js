@@ -27,23 +27,21 @@ import {
 
 const telegramToken = process.env.BOT_TOKEN
 
-const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https://telegram-multiporpuse-bot.onrender.com`
-
-const bot = new TelegramBot(telegramToken, {
-  webHook: { port: process.env.PORT },
+const bot = new TelegramBot(telegramToken, { polling: true })
+bot.on("polling_error", (error) => {
+  console.error("Error de polling:", error)
 })
-bot.setWebHook(`${url}/bot${telegramToken}`)
+// const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https://telegram-multiporpuse-bot.onrender.com`
+// const bot = new TelegramBot(telegramToken, {
+//   webHook: { port: process.env.PORT },
+// })
+// bot.setWebHook(`${url}/bot${telegramToken}`)
 
 const server = http.createServer((req, res) => {
   if (req.url === "/healthcheck") {
     res.statusCode = 200
     res.setHeader("Content-Type", "text/plain")
-    res.end("Up and running!")
-  } else if (req.url == "/bot") {
-    // Tu código para manejar las solicitudes del bot de Telegram va aquí
-    bot.processUpdate(req.body)
-    res.writeHead(200)
-    res.end()
+    res.end("Up!")
   } else {
     res.statusCode = 404
     res.end("Down")
@@ -51,13 +49,9 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(process.env.PORT, () => {
-  console.log(`Server running at port b ${process.env.PORT}`)
+  console.log(`Server running on port: ${process.env.PORT}`)
 })
 
-// const bot = new TelegramBot(telegramToken, { polling: true })
-// bot.on("polling_error", (error) => {
-//   console.error("Error de polling:", error)
-// })
 //----------------------Get user language---------------------------
 
 bot.onText(/\/start/, (msg) => {
