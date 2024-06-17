@@ -1,3 +1,4 @@
+import http from "http"
 import TelegramBot from "node-telegram-bot-api"
 import ai from "./bot-commands/ai.js"
 import { cop, copusd, usdcop, copAlert } from "./bot-commands/cop.js"
@@ -24,6 +25,22 @@ import {
   nextF1,
 } from "./bot-commands/f1.js"
 
+const server = http.createServer((req, res) => {
+  if (req.url === "/healthcheck") {
+    res.statusCode = 200
+    res.setHeader("Content-Type", "text/plain")
+    res.end("Up and running!")
+  } else {
+    res.statusCode = 404
+    res.end("Down")
+  }
+})
+
+const port = process.env.PORT || 3000
+server.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`)
+})
+
 const telegramToken = process.env.BOT_TOKEN
 
 const url = `https://api.telegram.org/bot${telegramToken}/setWebhook?url=https://telegram-multiporpuse-bot.onrender.com`
@@ -45,7 +62,6 @@ bot.onText(/\/start/, (msg) => {
 
     const commands = [
       { command: "start", description: { en: "Start bot", es: "Iniciar bot" } },
-      { command: "stop", description: { en: "Stop bot", es: "Detener bot" } },
       { command: "help", description: { en: "Get help", es: "Obtener ayuda" } },
       {
         command: "coin",
@@ -371,7 +387,6 @@ bot.onText(/\/help/, (msg) => {
       
       *General*
       */start* = Start bot
-      */stop* = Stop bot
   
       *Crypto*
       */coin* [coin] 
