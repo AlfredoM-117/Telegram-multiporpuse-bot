@@ -46,11 +46,6 @@ async function ai(bot, msg) {
         .replace(/(?<!\*)\*(?!\s*\*)/g, (match) => {
           return "\\" + match
         })
-      console.log(response)
-      console.log(
-        "---------------------------------------------------------------------------------------"
-      )
-      console.log(responseParsed)
       await bot.deleteMessage(chatId, checkingMessage.message_id)
       bot.sendMessage(chatId, responseParsed, {
         parse_mode: "Markdown",
