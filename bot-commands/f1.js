@@ -153,12 +153,12 @@ async function getF1Alerts(bot, msg) {
         const job = schedule.scheduleJob(alarmTime.toDate(), () => {
           bot.sendMessage(
             chatId,
-            `🏁 🚨 🚨 🚨 *Session Alert* 🚨 🚨 🚨 🏁
+            `🏁 🚨 🚨 🚨 Session Alert 🚨 🚨 🚨 🏁
 
-⏰ _${session.sesionName}_ 🏎
+⏰ ${session.sesionName} 🏎
 <b>Links:</b>
 
- <a href="https://www.starplus.com/es-419/espn">🔗 Star +</a> 
+ <a href="https://www.disneyplus.com/es-419/browse/espn">🔗 D+ ESPN</a> 
 
 <a href="https://www.rerace.io/live/f1tv">🔗 Rerace </a>
 
@@ -167,7 +167,6 @@ async function getF1Alerts(bot, msg) {
 <a href="https://www.rojadirectaenvivo.la/">🔗 RojaDirecta</a>
 
 <a href="https://f1-dash.com">🔗 F1 Dash</a>
-<a href="">🔗 </a>
  `,
             {
               parse_mode: "HTML",
@@ -191,7 +190,6 @@ async function nextF1(bot, msg) {
 
   try {
     const sesionAlarms = await getF1Calendar()
-
     const currentDate = moment().utc().format("YYYY-MM-DD")
 
     let filteredSesionAlarms = []
@@ -206,6 +204,7 @@ async function nextF1(bot, msg) {
         sesionDate.isSameOrAfter(currentDate) &&
         sesion.sesionName.includes("Race") &&
         !sesion.sesionName.includes("Miami") &&
+        !sesion.sesionName.includes("Austrian") &&
         sesionDate.year() === 2024
       ) {
         filteredSesionAlarms.push({
@@ -219,6 +218,7 @@ async function nextF1(bot, msg) {
       if (
         sesionDate.isSameOrAfter(currentDate) &&
         !sesion.sesionName.includes("Miami") &&
+        !sesion.sesionName.includes("Austrian") &&
         sesionDate.year() === 2024
       ) {
         filteredSesionAlarms.push({

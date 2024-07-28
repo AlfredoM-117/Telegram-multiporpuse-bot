@@ -1,35 +1,58 @@
-import OpenAI from "openai"
+import { GoogleGenerativeAI } from "@google/generative-ai"
 
-const aiToken = process.env.AI_TOKEN
-const openai = new OpenAI({
-  apiKey: aiToken,
-  baseURL: "https://integrate.api.nvidia.com/v1",
-})
+const apiKey = process.env.GEM_AI_TOKEN
+const genAI = new GoogleGenerativeAI(apiKey)
 
 async function ai(bot, msg) {
   const chatId = msg.chat.id
-  const text = msg.text
-  if (text) {
+  const query = msg.text.replace("/ai ", "")
+  if (query) {
     try {
       const checkingMessage = await bot.sendMessage(
         chatId,
         "We are checking...💬"
       )
-      const completion = await openai.chat.completions.create({
-        model: "meta/llama3-8b-instruct",
-        messages: [{ role: "user", content: text }],
-        temperature: 0.5,
-        top_p: 1,
-        max_tokens: 1024,
-        stream: true,
+      const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
       })
-      const respuesta = []
-      for await (const chunk of completion) {
-        respuesta.push(chunk.choices[0]?.delta?.content || "")
+
+      const generationConfig = {
+        temperature: 1,
+        topP: 0.95,
+        topK: 64,
+        maxOutputTokens: 8192,
+        responseMimeType: "text/plain",
       }
-      const resultado = respuesta.join("")
+
+      const chatSession = model.startChat({
+        generationConfig,
+        // safetySettings: Adjust safety settings
+        // See https://ai.google.dev/gemini-api/docs/safety-settings
+        history: [],
+      })
+
+      const result = await chatSession.sendMessage(query)
+      const response = result.response.text()
+      const responseParsed = response
+        .replace(/_/g, (match) => {
+          return "\\" + match
+        })
+        .replace(/\|/g, (match) => {
+          return "\\" + match
+        })
+        .replace(/\!/g, (match) => {
+          return "\\" + match
+        })
+        .replace(/(?<!\*)\*(?!\s*\*)/g, (match) => {
+          return "\\" + match
+        })
+      console.log(response)
+      console.log(
+        "---------------------------------------------------------------------------------------"
+      )
+      console.log(responseParsed)
       await bot.deleteMessage(chatId, checkingMessage.message_id)
-      bot.sendMessage(chatId, resultado, {
+      bot.sendMessage(chatId, responseParsed, {
         parse_mode: "Markdown",
       })
     } catch (e) {

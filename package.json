@@ -13,12 +13,12 @@
   "license": "ISC",
   "dependencies": {
     "@extractus/article-extractor": "^8.0.10",
+    "@google/generative-ai": "^0.16.0",
     "cheerio": "^1.0.0-rc.12",
     "f1-api-node": "^1.4.0",
     "moment-timezone": "^0.5.45",
     "node-schedule": "^2.1.1",
     "node-telegram-bot-api": "^0.63.0",
-    "openai": "^4.47.1",
     "puppeteer-core": "^22.10.0"
   }
 }

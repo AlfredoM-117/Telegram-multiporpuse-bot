@@ -159,8 +159,9 @@ async function alertBcv(bot, msg) {
       ? "⏰ Alerta diaria activada ✅"
       : "⏰ Daily alert activate ✅"
 
-  schedule.scheduledJobs[chatId] && schedule.scheduledJobs[chatId].cancel()
-
+  if (schedule.scheduledJobs[chatId]) {
+    schedule.scheduledJobs[chatId] && schedule.scheduledJobs[chatId].cancel()
+  }
   const reminderTime = moment().tz(moment.tz.guess()).set({
     hour: 13,
     minute: 0,
